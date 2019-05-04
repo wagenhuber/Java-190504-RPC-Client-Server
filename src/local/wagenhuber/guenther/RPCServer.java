@@ -17,6 +17,7 @@ public class RPCServer extends Thread {
     public RPCServer(int port, String service) {
         this.port = port;
         this.service = service;
+        this.service = new String("local.wagenhuber.guenther." + service);
     }
 
     public void startServer() throws Exception {
@@ -28,12 +29,17 @@ public class RPCServer extends Thread {
 
 
         //For example, the type of String.class is Class<String>. Use Class<?> if the class being modeled is unknown.
+        //Returns the Class object associated with the class or interface with the given string name, using the given class loader
+        //Class.forName needs full class path
+        Class<?> serviceClass = Class.forName(service);
 
-        Class<?> serviceClass = Class.forName(service); //Returns the Class object associated with the class or interface with the given string name, using the given class loader
         Object serviceObject = serviceClass.newInstance();
 
         while (true) {
             Socket client = server.accept();
+            System.out.println("server.accept");
+            System.out.println(client.getInetAddress().toString());
+
             new RPCThread(client, serviceObject).start();
         }
     }

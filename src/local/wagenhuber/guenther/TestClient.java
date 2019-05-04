@@ -28,6 +28,7 @@ public class TestClient {
 
         Object[] params5 = {"msg.txt"};
 
+        @SuppressWarnings("unchecked")
         Vector<String> v = ((Vector<String>) rpcClient.call("getMessages", params5));
         System.out.println("getMessages: ");
         for (String msg : v) {
