@@ -19,9 +19,9 @@ public class TestClient {
         int summe = ((Integer) rpcClient.call("getSumme", params2));
         System.out.println("getSumme: " + summe);
 
-        Object[] params3 = {};
-        Date date = ((Date) rpcClient.call("getDate", params3));
-        System.out.println("getDate: " + date);
+        //Object[] params3 = {};
+        //Date date = ((Date) rpcClient.call("getDate", params3));
+        //System.out.println("getDate: " + date);
 
         Object[] params4 = {"Dies ist ein Test..."};
         rpcClient.call("sendMessage", params4);

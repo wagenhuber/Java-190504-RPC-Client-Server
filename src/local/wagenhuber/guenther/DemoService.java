@@ -11,7 +11,7 @@ public class DemoService {
         return text;
     }
 
-    public int Summe(Integer x, Integer y) {
+    public int getSumme(Integer x, Integer y) {
         return x + y;
     }
 

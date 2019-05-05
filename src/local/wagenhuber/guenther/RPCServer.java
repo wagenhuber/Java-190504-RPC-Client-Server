@@ -37,8 +37,6 @@ public class RPCServer extends Thread {
 
         while (true) {
             Socket client = server.accept();
-            System.out.println("server.accept");
-            System.out.println(client.getInetAddress().toString());
 
             new RPCThread(client, serviceObject).start();
         }
@@ -61,29 +59,27 @@ public class RPCServer extends Thread {
                 String name = ((String) in.readObject());
                 Object[] params = ((Object[]) in.readObject());
 
-
                 Class<?>[] types = new Class[params.length];
                 for (int i = 0; i < params.length; i++) {
                     types[i] = params[i].getClass();
-
-                    Object ret = null;
-
-                    try {
-                        Method m = serviceObject.getClass().getMethod(name, types);
-                        ret = m.invoke(serviceObject, params);
-                    } catch (NoSuchMethodException e) {
-                        e.printStackTrace();
-
-
-                        ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
-                        out.writeObject(ret);
-                        out.flush();
-
-                        in.close();
-                        out.close();
-                    }
-
+                    System.out.println(types[i].toString());
                 }
+                Object ret = null;
+                try {
+                    Method m = serviceObject.getClass().getMethod(name, types);
+                    ret = m.invoke(serviceObject, params);
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                }
+
+                ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
+                out.writeObject(ret);
+                out.flush();
+
+                in.close();
+                out.close();
+
+
             } catch (Exception e) {
                 System.err.println(e);
             } finally {
